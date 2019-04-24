@@ -4,6 +4,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
@@ -13,28 +14,27 @@ import java.sql.Connection;
  */
 public class DBUtil {
 
-    private DriverManagerDataSource dataSource = null;
+    private static DriverManagerDataSource dataSource = null;
 
     //设置数据源
-    public void setDataSource() {
+    public static DataSource getDataSource() {
         dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("");
-        dataSource.setUrl("");
-        dataSource.setUsername("");
-        dataSource.setPassword("");
+        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        dataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=DB_3000");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("123456");
+        return dataSource;
     }
 
     //获取JdbcTemplate
-    public JdbcTemplate getJdbcTemplate(){
+    public static JdbcTemplate getJdbcTemplate(){
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(dataSource);
         return jdbcTemplate;
     }
 
     //连接SQLServer
     public void connectDataSource(){
         SQLServerDataSource dataSource = new SQLServerDataSource();
-        dataSource.
     }
 
 }
