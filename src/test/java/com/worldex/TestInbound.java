@@ -1,34 +1,69 @@
-package com.worldex.service;
+package com.worldex;
 
-import com.worldex.dao.BoundDao;
 import com.worldex.util.DBUtil;
 import com.worldex.vo.DataMessage;
 import com.worldex.vo.DataMessageMapper;
 import com.worldex.vo.MessageDetail;
 import com.worldex.vo.MessageDetailMapper;
+import org.junit.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sound.midi.Soundbank;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author: zhangwei
- * @Date: Created in 2019 04 22 下午 4:39
+ * @Date: Created in 2019 04 25 上午 10:18
  * @Description:
  */
-public class BoundService implements BoundDao {
+public class TestInbound {
 
-    private static JdbcTemplate jdbcTemplate = DBUtil.jdbcTemplate;
+    private static JdbcTemplate jdbcTemplate = DBUtil.getJdbcTemplate();
+    @Test
+    public void test(){
+        JdbcTemplate jdbcTemplate;
+        jdbcTemplate = DBUtil.getJdbcTemplate();
+        List list = (List) jdbcTemplate.execute(new CallableStatementCreator() {
+            @Override
+            public CallableStatement createCallableStatement(Connection connection) throws SQLException {
+                String storedProc = "exec P_CEVAInOut @Flag='Inbound',@OS_NO='',@JobNo=''";
+                CallableStatement callableStatement = connection.prepareCall(storedProc);
+                return callableStatement;
+            }
+        }, new CallableStatementCallback<Object>() {
+            @Override
+            public Object doInCallableStatement(CallableStatement callableStatement) throws SQLException, DataAccessException {
+                boolean b = callableStatement.execute();
+                System.out.println(b);
+                List<DataMessage> list = new ArrayList<>();
+//                DataMessage dataMessage = null;
+                callableStatement.execute();
+                ResultSet resultSet = callableStatement.getResultSet();
+                int columnCount = resultSet.getMetaData().getColumnCount();
+                while(resultSet.next()){
+                    list.add(new DataMessageMapper().mapRow(resultSet,columnCount++));
+//                    System.out.println(resultSet.getString("vc_no") + resultSet.getString("JobNo"));
+                }
+                return list;
+            }
+        });
+        System.out.println(list.size());
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+    }
 
-    @Override
-    public List<DataMessage> getInBound() {
+    @Test
+    public void testDetail(){
+        getInBound();
+    }
+
+    public void getInBound() {
 //        jdbcTemplate = DBUtil.getJdbcTemplate();
         List<DataMessage> list;
         list = (List<DataMessage>)jdbcTemplate.execute(new CallableStatementCreator() {
@@ -48,21 +83,24 @@ public class BoundService implements BoundDao {
                 int columnCount = resultSet.getMetaData().getColumnCount();
                 while(resultSet.next()){
                     list.add(new DataMessageMapper().mapRow(resultSet,columnCount++));
+//                    System.out.println(resultSet.getString("vc_no") + resultSet.getString("JobNo"));
                 }
-                System.out.println(list);
                 return list;
             }
         });
+        System.out.println(list.size());
         //调用得到明细的方法
-        getInBoundDetail(list);
-        return list;
+        list = getInBoundDetail(list);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getPODetails());
+        }
     }
 
     /**
      * 根据Flag和OS_NO调用存储过程
      * 得到入库报文明细的信息
      */
-    private List getInBoundDetail(List<DataMessage> list){
+    private List<DataMessage> getInBoundDetail(List<DataMessage> list){
         if(null == list)
             return null;
 //        List<MessageDetail> details = new ArrayList<>();
@@ -95,8 +133,5 @@ public class BoundService implements BoundDao {
         return list;
     }
 
-    @Override
-    public void getOutBound() {
 
-    }
 }

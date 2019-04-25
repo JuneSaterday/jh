@@ -1,5 +1,9 @@
 package com.worldex.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Date;
+
 /**
  * @Author: zhangwei
  * @Date: Created in 2019 04 24 下午 6:05
@@ -7,19 +11,38 @@ package com.worldex.vo;
  */
 public class MessageDetail {
     //PO号(必填)
+    @JSONField(ordinal = 1,name = "PurchaseOrderNumber")
     private String PurchaseOrderNumber;
     //SKU号(非必填)
+    @JSONField(ordinal = 2,name = "SKUNumber")
     private String SKUNumber;
     //品名(非必填)
+    @JSONField(ordinal = 3,name = "GoodsName")
     private String GoodsName;
     //数量(必填)
+    @JSONField(ordinal = 4,name = "ActPOQty")
     private Integer ActPOQty;
     //重量(非必填)
+    @JSONField(ordinal = 5,name = "ActPOGW")
     private Double ActPOGW;
     //体积(必填)
+    @JSONField(ordinal = 6,name = "ActPOCBM")
     private Double ActPOCBM;
     //长宽高(必填)
+    @JSONField(ordinal = 7,name = "ActPOMeasurement")
     private String ActPOMeasurement;
+    //入库时间/结案时间(必填)
+    @JSONField(ordinal = 8,name = "ActPO_InOutDate",format = "yyyy-MM-dd HH:mm:ss")
+    private Date ActPO_InOutDate;
+    //托盘号(非必填)
+    @JSONField(ordinal = 9,name = "DetailFutureUse1")
+    private String DetailFutureUse1;
+    //扩展2(非必填)
+    @JSONField(ordinal = 10,name = "DetailFutureUse2")
+    private String DetailFutureUse2;
+    //扩展3(非必填)
+    @JSONField(ordinal = 11,name = "DetailFutureUse3")
+    private String DetailFutureUse3;
 
     public String getPurchaseOrderNumber() {
         return PurchaseOrderNumber;
@@ -77,11 +100,11 @@ public class MessageDetail {
         ActPOMeasurement = actPOMeasurement;
     }
 
-    public String getActPO_InOutDate() {
+    public Date getActPO_InOutDate() {
         return ActPO_InOutDate;
     }
 
-    public void setActPO_InOutDate(String actPO_InOutDate) {
+    public void setActPO_InOutDate(Date actPO_InOutDate) {
         ActPO_InOutDate = actPO_InOutDate;
     }
 
@@ -109,12 +132,20 @@ public class MessageDetail {
         DetailFutureUse3 = detailFutureUse3;
     }
 
-    //入库时间/结案时间(必填)
-    private String ActPO_InOutDate;
-    //托盘号(非必填)
-    private String DetailFutureUse1;
-    //扩展2(非必填)
-    private String DetailFutureUse2;
-    //扩展3(非必填)
-    private String DetailFutureUse3;
+    @Override
+    public String toString() {
+        return "MessageDetail{" +
+                "PurchaseOrderNumber='" + PurchaseOrderNumber + '\'' +
+                ", SKUNumber='" + SKUNumber + '\'' +
+                ", GoodsName='" + GoodsName + '\'' +
+                ", ActPOQty=" + ActPOQty +
+                ", ActPOGW=" + ActPOGW +
+                ", ActPOCBM=" + ActPOCBM +
+                ", ActPOMeasurement='" + ActPOMeasurement + '\'' +
+                ", ActPO_InOutDate=" + ActPO_InOutDate +
+                ", DetailFutureUse1='" + DetailFutureUse1 + '\'' +
+                ", DetailFutureUse2='" + DetailFutureUse2 + '\'' +
+                ", DetailFutureUse3='" + DetailFutureUse3 + '\'' +
+                '}';
+    }
 }
