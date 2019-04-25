@@ -1,6 +1,7 @@
 package com.worldex.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 
 import java.util.Date;
 
@@ -20,13 +21,13 @@ public class MessageDetail {
     @JSONField(ordinal = 3,name = "GoodsName")
     private String GoodsName;
     //数量(必填)
-    @JSONField(ordinal = 4,name = "ActPOQty")
+    @JSONField(ordinal = 4,name = "ActPOQty",serializeUsing = ToStringSerializer.class)
     private Integer ActPOQty;
     //重量(非必填)
-    @JSONField(ordinal = 5,name = "ActPOGW")
+    @JSONField(ordinal = 5,name = "ActPOGW",serializeUsing = ToStringSerializer.class)
     private Double ActPOGW;
     //体积(必填)
-    @JSONField(ordinal = 6,name = "ActPOCBM")
+    @JSONField(ordinal = 6,name = "ActPOCBM",serializeUsing = ToStringSerializer.class)
     private Double ActPOCBM;
     //长宽高(必填)
     @JSONField(ordinal = 7,name = "ActPOMeasurement")

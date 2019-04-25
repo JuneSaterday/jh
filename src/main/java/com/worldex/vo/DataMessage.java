@@ -1,6 +1,7 @@
 package com.worldex.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.ToStringSerializer;
 
 import java.util.Date;
 import java.util.List;
@@ -57,7 +58,7 @@ public class DataMessage {
     @JSONField(ordinal = 14,name = "FutureUse1")
     private String FutureUse1;
     //扩展2(非必填)
-    @JSONField(ordinal = 15,name = "FutureUse2")
+    @JSONField(ordinal = 15,name = "FutureUse2",serializeUsing = ToStringSerializer.class)
     private Integer FutureUse2;
     //扩展3(非必填)
     @JSONField(ordinal = 16,name = "FutureUse3")

@@ -24,8 +24,8 @@ public class DataMessageMapper implements RowMapper<DataMessage> {
         dataMessage.setFactory(rs.getString("Factory"));
         dataMessage.setOriginPort(rs.getString("OriginPort"));
         dataMessage.setDestPort(rs.getString("DestPort"));
-        dataMessage.setETD(rs.getDate("ETD"));
-        dataMessage.setOutboundDate(rs.getDate("OutboundDate"));
+        dataMessage.setETD(rs.getTimestamp("ETD"));
+        dataMessage.setOutboundDate(rs.getTimestamp("OutboundDate"));
         dataMessage.setRemark(rs.getString("Remark"));
         dataMessage.setFutureUse1(rs.getString("FutureUse1"));
         dataMessage.setFutureUse2(rs.getInt("FutureUse2"));

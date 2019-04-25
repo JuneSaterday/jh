@@ -21,7 +21,7 @@ public class MessageDetailMapper implements RowMapper {
         detail.setActPOGW(rs.getDouble("ActPOGW"));
         detail.setActPOCBM(rs.getDouble("ActPOCBM"));
         detail.setActPOMeasurement(rs.getString("ActPOMeasurement"));
-        detail.setActPO_InOutDate(rs.getDate("ActPO_InOutDate"));
+        detail.setActPO_InOutDate(rs.getTimestamp("ActPO_InOutDate"));
         detail.setDetailFutureUse1(rs.getString("DetailFutureUse1"));
         detail.setDetailFutureUse2(rs.getString("DetailFutureUse2"));
         detail.setDetailFutureUse3(rs.getString("DetailFutureUse3"));

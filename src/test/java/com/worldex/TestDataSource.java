@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class TestDataSource {
 
@@ -16,5 +18,7 @@ public class TestDataSource {
         jdbcTemplate.setDataSource(dataSource);
         Long count = jdbcTemplate.queryForObject("select count(*) from t_mf_in", Long.class);
         System.out.println(count);
+        System.out.println(new Date());
+        System.out.println(LocalDateTime.now());
     }
 }
