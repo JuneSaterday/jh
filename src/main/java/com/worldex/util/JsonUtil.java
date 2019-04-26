@@ -3,9 +3,14 @@ package com.worldex.util;
 import com.alibaba.fastjson.serializer.BeforeFilter;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.ValueFilter;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.worldex.vo.DataMessage;
+import com.worldex.vo.HTTPResult;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: zhangwei
@@ -39,6 +44,28 @@ public class JsonUtil {
 //        }
 //    };
      public SerializeFilter[] filters = new SerializeFilter[]{new myVauleFilter(), new myBeforeFilter()};
+
+    /**
+     * 调用接口后，根据返回结果的状态码
+     */
+    public static List<String> getResponse(String content, String messageType){
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = jsonParser.parse(content).getAsJsonObject();
+        List<String> list = new ArrayList<>();
+        String status,result;
+        if("account".equals(messageType)){
+            status = jsonObject.get("status").getAsString();
+            result = jsonObject.get("result").getAsJsonObject().get("currSessionID").getAsString();
+        } else {
+            status = jsonObject.get("status").getAsString();
+            result = jsonObject.get("result").getAsString();
+        }
+        list.add(status);
+        list.add(result);
+        return list;
+    }
+
+
 }
 class myBeforeFilter extends BeforeFilter{
     @Override
