@@ -43,10 +43,4 @@ public class DBUtil {
         jdbcTemplate.setDataSource(getDataSource());
         return jdbcTemplate;
     }
-
-    //连接SQLServer
-    public void connectDataSource(){
-        SQLServerDataSource dataSource = new SQLServerDataSource();
-    }
-
 }
