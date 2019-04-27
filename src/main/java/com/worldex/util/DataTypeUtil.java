@@ -28,9 +28,10 @@ public class DataTypeUtil {
      * 生成数据报文的前缀部分
      * @return
      */
-    public static StringBuilder jsonPrefix() {
+    public static StringBuilder jsonPrefix(int i) {
         StringBuilder sb = new StringBuilder();
         Date date = new Date();
+        date.setTime(date.getTime() + i*1000);
         String dateString = DataTypeUtil.dateFormatString(date);
         String idString = DataTypeUtil.dateFormatClientId(date);
         sb.append("{\n" +

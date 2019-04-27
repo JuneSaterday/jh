@@ -44,10 +44,10 @@ public class DataMessage {
     private String DestPort;
     //计划出发日期(出库必填)
     @JSONField(ordinal = 10,name = "ETD")
-    private Date ETD;
+    private String ETD;
     //结案时间(必填)
-    @JSONField(ordinal = 11,name = "OutboundDate",format = "yyyy-MM-dd HH:mm:ss")
-    private Date OutboundDate;
+    @JSONField(ordinal = 11,name = "InOutDate",format = "yyyy-MM-dd HH:mm:ss")
+    private Date InOutDate;
     //备注(非必填)
     @JSONField(ordinal = 12,name = "Remark")
     private String Remark;
@@ -59,7 +59,7 @@ public class DataMessage {
     private String FutureUse1;
     //扩展2(非必填)
     @JSONField(ordinal = 15,name = "FutureUse2",serializeUsing = ToStringSerializer.class)
-    private Integer FutureUse2;
+    private String FutureUse2;
     //扩展3(非必填)
     @JSONField(ordinal = 16,name = "FutureUse3")
     private String FutureUse3;
@@ -144,20 +144,20 @@ public class DataMessage {
         DestPort = destPort;
     }
 
-    public Date getETD() {
+    public String getETD() {
         return ETD;
     }
 
-    public void setETD(Date ETD) {
+    public void setETD(String ETD) {
         this.ETD = ETD;
     }
 
-    public Date getOutboundDate() {
-        return OutboundDate;
+    public Date getInOutDate() {
+        return InOutDate;
     }
 
-    public void setOutboundDate(Date outboundDate) {
-        OutboundDate = outboundDate;
+    public void setInOutDate(Date inOutDate) {
+        InOutDate = inOutDate;
     }
 
     public String getRemark() {
@@ -184,11 +184,11 @@ public class DataMessage {
         FutureUse1 = futureUse1;
     }
 
-    public Integer getFutureUse2() {
+    public String getFutureUse2() {
         return FutureUse2;
     }
 
-    public void setFutureUse2(Integer futureUse2) {
+    public void setFutureUse2(String futureUse2) {
         FutureUse2 = futureUse2;
     }
 
@@ -213,12 +213,12 @@ public class DataMessage {
                 ", Factory='" + Factory + '\'' +
                 ", OriginPort='" + OriginPort + '\'' +
                 ", DestPort='" + DestPort + '\'' +
-                ", ETD=" + ETD +
-                ", OutboundDate=" + OutboundDate +
+                ", ETD='" + ETD + '\'' +
+                ", InOutDate=" + InOutDate +
                 ", Remark='" + Remark + '\'' +
                 ", PODetails=" + PODetails +
                 ", FutureUse1='" + FutureUse1 + '\'' +
-                ", FutureUse2=" + FutureUse2 +
+                ", FutureUse2='" + FutureUse2 + '\'' +
                 ", FutureUse3='" + FutureUse3 + '\'' +
                 '}';
     }

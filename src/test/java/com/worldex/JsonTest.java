@@ -19,7 +19,8 @@ public class JsonTest {
     @Test
     public void test(){
         MessageService messageService = new MessageService();
-        messageService.createMessage();
+        messageService.createMessage("Inbound");
+        messageService.createMessage("Outbound");
     }
 
     @Test
@@ -32,12 +33,12 @@ public class JsonTest {
                 "        \n" +
                 "    }\n" +
                 "}";
-        String s = JsonUtil.getCurrSessionID(content,"status");
-        System.out.println(s);
-        s = JsonUtil.getCurrSessionID(content,"currSessionID");
-        System.out.println(s);
-        s = JsonUtil.getCurrSessionID(content,"");
-        System.out.println(s);
+//        String s = JsonUtil.getCurrSessionID(content,"status");
+//        System.out.println(s);
+//        s = JsonUtil.getCurrSessionID(content,"currSessionID");
+//        System.out.println(s);
+//        s = JsonUtil.getCurrSessionID(content,"");
+//        System.out.println(s);
     }
 
     @Test

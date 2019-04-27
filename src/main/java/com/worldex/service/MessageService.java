@@ -21,19 +21,26 @@ import java.util.List;
 public class MessageService {
 
     private BoundService boundService = new BoundService();
-    SerializeFilter[] filters = new JsonUtil().filters;
-
+    SerializeFilter[] InFilters = new JsonUtil().inFilters;
+    SerializeFilter[] OutFilters = new JsonUtil().outFilters;
     /**
      * 将BoundService中查到的报文
      * 拼接成json格式
      */
-    public List<String> createMessage() {
-        List<DataMessage> list = boundService.getInBound();
+    public List<String> createMessage(String type) {
+
+        List<DataMessage> list = boundService.getBound(type);
         List<String> messageList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-            String jsonString = JSON.toJSONString(list.get(i), filters,
-                    SerializerFeature.PrettyFormat, SerializerFeature.WriteNullStringAsEmpty);
-            StringBuilder prefix = DataTypeUtil.jsonPrefix();
+            String jsonString;
+            if("Inbound".equals(type)){
+                jsonString = JSON.toJSONString(list.get(i), InFilters,
+                        SerializerFeature.PrettyFormat, SerializerFeature.WriteNullStringAsEmpty);
+            }else {
+                jsonString = JSON.toJSONString(list.get(i), OutFilters,
+                        SerializerFeature.PrettyFormat, SerializerFeature.WriteNullStringAsEmpty);
+            }
+            StringBuilder prefix = DataTypeUtil.jsonPrefix(i);
             messageList.add(prefix.append(DataTypeUtil.removeFirstChar(jsonString) + "}").toString());
         }
         System.out.println(messageList);

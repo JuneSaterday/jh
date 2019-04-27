@@ -1,21 +1,10 @@
 package com.worldex.util;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.worldex.vo.DataMessage;
-import com.worldex.vo.DataMessageMapper;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.CallableStatementCallback;
-import org.springframework.jdbc.core.CallableStatementCreator;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * @Author: zhangwei
@@ -29,11 +18,12 @@ public class DBUtil {
 
     //设置数据源
     public static DataSource getDataSource() {
+        String[] key = PropertyUtil.loadProperties();
         dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        dataSource.setUrl("jdbc:sqlserver://localhost:1433;DatabaseName=DB_3000");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("123456");
+        dataSource.setDriverClassName(key[0]);
+        dataSource.setUrl(key[1]);
+        dataSource.setUsername(key[2]);
+        dataSource.setPassword(key[3]);
         return dataSource;
     }
 
