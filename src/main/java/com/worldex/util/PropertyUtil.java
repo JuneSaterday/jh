@@ -1,15 +1,13 @@
 package com.worldex.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.log4j.Logger;
 import java.io.*;
 import java.util.Properties;
 
 public class PropertyUtil {
-    private static final Logger logger = LoggerFactory.getLogger(PropertyUtil.class);
+    private static final Logger logger = Logger.getLogger(PropertyUtil.class);
 
-    public static String[] loadProperties() {
+    public static String[] loadJdbcProperties() {
         Properties properties = new Properties();
         String[] db = new String[4];
         try {
@@ -22,9 +20,27 @@ public class PropertyUtil {
         } catch (FileNotFoundException e) {
             logger.info("没有找到jdbc.properties文件");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e);
         }
         return db;
+    }
+
+    public static String[] loadHttpProperties() {
+        Properties properties = new Properties();
+        String[] http = new String[4];
+        try {
+            InputStream in = PropertyUtil.class.getClassLoader().getResourceAsStream("http.properties");
+            properties.load(in);
+            http[0] = properties.getProperty("id");
+            http[1] = properties.getProperty("password");
+            http[2] = properties.getProperty("userUrl");
+            http[3] = properties.getProperty("messageUrl");
+        } catch (FileNotFoundException e) {
+            logger.info("没有找到http.properties文件");
+        } catch (IOException e) {
+            logger.info(e);
+        }
+        return http;
     }
 
 }

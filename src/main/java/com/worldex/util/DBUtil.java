@@ -3,6 +3,7 @@ package com.worldex.util;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
 import javax.sql.DataSource;
 
 
@@ -13,12 +14,12 @@ import javax.sql.DataSource;
  */
 public class DBUtil {
 
-    public static DriverManagerDataSource dataSource = null;
+    private static DriverManagerDataSource dataSource = null;
     public static JdbcTemplate jdbcTemplate = getJdbcTemplate();
 
     //设置数据源
     public static DataSource getDataSource() {
-        String[] key = PropertyUtil.loadProperties();
+        String[] key = PropertyUtil.loadJdbcProperties();
         dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(key[0]);
         dataSource.setUrl(key[1]);
@@ -28,7 +29,7 @@ public class DBUtil {
     }
 
     //获取JdbcTemplate
-    public static JdbcTemplate getJdbcTemplate(){
+    public static JdbcTemplate getJdbcTemplate() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(getDataSource());
         return jdbcTemplate;

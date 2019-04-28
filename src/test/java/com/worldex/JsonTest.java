@@ -9,6 +9,8 @@ import com.worldex.util.JsonUtil;
 import com.worldex.vo.HTTPResult;
 import org.junit.Test;
 
+import java.util.List;
+
 /**
  * @Author: zhangwei
  * @Date: Created in 2019 04 25 下午 4:23
@@ -19,8 +21,8 @@ public class JsonTest {
     @Test
     public void test(){
         MessageService messageService = new MessageService();
-        messageService.createMessage("Inbound");
-        messageService.createMessage("Outbound");
+        List<String> inBoundList = messageService.createMessage("Inbound",0);
+        messageService.createMessage("Outbound",inBoundList.size());
     }
 
     @Test

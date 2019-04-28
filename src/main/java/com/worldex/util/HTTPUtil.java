@@ -57,6 +57,7 @@ public class HTTPUtil {
 //                System.out.println(content);
 //            }
             String content = EntityUtils.toString(response.getEntity(), "UTF-8");
+            System.out.println(content);
             List<String> responseList = JsonUtil.getResponse(content, messageType);
             return responseList;
         } finally {
