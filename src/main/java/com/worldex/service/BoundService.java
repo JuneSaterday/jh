@@ -55,7 +55,6 @@ public class BoundService implements BoundDao {
         });
         //调用得到明细的方法
         return getBoundDetail(list,type);
-//        return list;
     }
 
     /**

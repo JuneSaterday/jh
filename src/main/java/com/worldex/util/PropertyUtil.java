@@ -20,7 +20,7 @@ public class PropertyUtil {
         } catch (FileNotFoundException e) {
             logger.info("没有找到jdbc.properties文件");
         } catch (IOException e) {
-            logger.info(e);
+            logger.info("读取jdbc.properties文件异常",e);
         }
         return db;
     }

@@ -1,40 +1,38 @@
 package com.worldex;
 
-import com.worldex.constant.HTTPConstant;
+import com.worldex.constant.HTTPStatusCode;
 import com.worldex.service.HTTPService;
 import org.apache.log4j.Logger;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 public class App {
     private static final Logger logger = Logger.getLogger(App.class);
 
     public static void main(String[] args) throws IOException {
 
-        //一次性发送报文
         HTTPService httpService = new HTTPService();
-        List<String> account =  httpService.postAccountAuth();
-        if(HTTPConstant.SUCCESS.equals(account.get(0))){
+        Map<String,String> account =  httpService.postAccountAuth();
+        if(HTTPStatusCode.SUCCESS.equals(account.get("status"))){
             logger.info("获取密钥成功！");
             //post成功，得到currSessionID
-            String currSessionID = account.get(1);
+            String currSessionID = account.get("result");
             //进行入库单报文推送
-            List<String> inResponse = httpService.postSubmitCR(currSessionID);
-            if(null == inResponse){
-                logger.info("暂时没有入库单需要推送");
+            boolean isInSuccess = httpService.postSubmit(currSessionID,"Inbound");
+            if(isInSuccess){
+                logger.info("入库单报文发送成功！");
             } else {
-                logger.info(inResponse);
+                logger.info("入库单报文发送失败！");
             }
             //进行出库单报文推送
-            List<String> outResponse = httpService.postSubmitLP(currSessionID);
-            if(null == outResponse){
-                logger.info("暂时没有出库单需要推送");
+            boolean isOutSuccess = httpService.postSubmit(currSessionID,"Outbound");
+            if(isOutSuccess){
+                logger.info("出库单报文发送成功！");
             } else {
-                logger.info(outResponse);
+                logger.info("出库单报文发送失败！");
             }
         } else {
             logger.info(account);
         }
-
     }
 }

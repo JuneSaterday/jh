@@ -1,12 +1,8 @@
 package com.worldex;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.worldex.service.MessageService;
-import com.worldex.util.JsonUtil;
-import com.worldex.vo.HTTPResult;
 import org.junit.Test;
 
 import java.util.List;

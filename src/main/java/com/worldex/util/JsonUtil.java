@@ -5,12 +5,11 @@ import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.worldex.constant.HTTPStatusCode;
 import com.worldex.vo.DataMessage;
-import com.worldex.vo.HTTPResult;
-
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: zhangwei
@@ -19,30 +18,38 @@ import java.util.List;
  */
 public class JsonUtil {
 
-     public SerializeFilter[] inFilters = new SerializeFilter[]{new myVauleFilter(), new InBeforeFilter()};
-     public SerializeFilter[] outFilters = new SerializeFilter[]{new myVauleFilter(), new OutBeforeFilter()};
+    public SerializeFilter[] inFilters = new SerializeFilter[]{new myVauleFilter(), new InBeforeFilter()};
+    public SerializeFilter[] outFilters = new SerializeFilter[]{new myVauleFilter(), new OutBeforeFilter()};
+
     /**
      * 调用接口后，根据返回结果的状态码
      */
-    public static List<String> getResponse(String content, String messageType){
+    public static Map<String,String> getResponse(String content, String messageType) {
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = jsonParser.parse(content).getAsJsonObject();
-        List<String> list = new ArrayList<>();
-        String status,result;
-        if("account".equals(messageType)){
+        Map<String,String> map = new HashMap();
+        String status, result;
+        if ("account".equals(messageType)) {
             status = jsonObject.get("status").getAsString();
-            result = jsonObject.get("result").getAsJsonObject().get("currSessionID").getAsString();
+            if (HTTPStatusCode.SUCCESS.equals(status)) {
+                result = jsonObject.get("result").getAsJsonObject().get("currSessionID").getAsString();
+            } else {
+                result = jsonObject.get("result").getAsString();
+            }
         } else {
             status = jsonObject.get("status").getAsString();
             result = jsonObject.get("result").getAsString();
         }
-        list.add(status);
-        list.add(result);
-        return list;
+        map.put("status",status);
+        map.put("result",result);
+        return map;
     }
+
+
+    //将json字符串保存到文件中
 }
 
-class InBeforeFilter extends BeforeFilter{
+class InBeforeFilter extends BeforeFilter {
     @Override
     public void writeBefore(Object o) {
         if (o instanceof DataMessage) {
@@ -51,7 +58,7 @@ class InBeforeFilter extends BeforeFilter{
     }
 }
 
-class OutBeforeFilter extends BeforeFilter{
+class OutBeforeFilter extends BeforeFilter {
     @Override
     public void writeBefore(Object o) {
         if (o instanceof DataMessage) {
@@ -64,7 +71,7 @@ class OutBeforeFilter extends BeforeFilter{
  * 当报文类的属性为double，只保留两位小数
  * 且小数位值为0时，只显示整数部分
  */
-class myVauleFilter implements ValueFilter{
+class myVauleFilter implements ValueFilter {
     @Override
     public Object process(Object o, String s, Object value) {
         if ("ActPOGW".equals(s) || "ActPOCBM".equals(s)) {
